@@ -1,0 +1,9 @@
+%votes
+  -for vote in @votes
+    %vote{:id => vote.id, :tracking => vote.tracking, :response_time => vote.response_time}
+      %prompt{:id => vote.prompt_id}
+      %voter{:id => vote.voter_id}
+      %items
+        -if @votes_items.nil? || @votes_items.include?(vote)
+          -for item in vote.items
+            %item{:id => item.id}

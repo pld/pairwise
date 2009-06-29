@@ -1,0 +1,4 @@
+%rank_algorithms
+  -for algorithm in @algorithms
+    %rank_algorithm{:id => algorithm.id}
+      %description= cdata(algorithm.name)

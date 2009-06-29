@@ -1,0 +1,20 @@
+%h1 Listing rank_algorithms
+
+%table
+  %tr
+    %th ID
+    %th Name
+    %th Data
+
+  -for rank_algorithm in @rank_algorithms
+    %tr
+      %td=h rank_algorithm.id
+      %td=h rank_algorithm.name
+      %td=h rank_algorithm.data
+      %td= link_to 'Show', rank_algorithm
+      %td= link_to 'Edit', edit_rank_algorithm_path(rank_algorithm)
+      %td= link_to 'Destroy', rank_algorithm, :confirm => 'Are you sure?', :method => :delete
+%br
+= link_to 'New rank_algorithm', new_rank_algorithm_path
+%br
+= link_to 'Build Stats', build_stats_rank_algorithms_path

@@ -1,0 +1,6 @@
+%h1= link_to 'Pairwise', root_path
+-if logged_in?
+  %p
+    logged in as
+    = current_user.login
+    == (#{link_to "log out", logout_path, { :title => "Log out" }})

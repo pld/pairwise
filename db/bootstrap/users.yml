@@ -1,0 +1,40 @@
+peter:
+  id: 1
+  login: 
+  email: 
+  crypted_password: 
+  salt: 
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+  activated_at: <%= Time.now.to_s(:db) %>
+  state: admin
+test:
+  id: 2
+  login: 
+  email: 
+  crypted_password: 
+  salt: 
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+  activated_at: <%= Time.now.to_s(:db) %>
+  state: active
+photocracy:
+  id: 3
+  login: 
+  email: 
+  crypted_password: 
+  salt: 
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+  activated_at: <%= Time.now.to_s(:db) %>
+  state: active
+photocracy_stage:
+  id: 4
+  login: 
+  email: 
+  crypted_password: 
+  salt: 
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+  activated_at: <%= Time.now.to_s(:db) %>
+  state: active

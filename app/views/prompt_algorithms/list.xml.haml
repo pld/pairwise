@@ -1,0 +1,4 @@
+%prompt_algorithms
+  -for algorithm in @algorithms
+    %prompt_algorithm{:id => algorithm.id}
+      %description= cdata(algorithm.name)

@@ -1,0 +1,12 @@
+<voters>
+  <voter>
+    <features>
+      <feature name="gender">0</feature>
+    </features>
+  </voter>
+  <voter>
+    <features>
+      <feature name="gender">1</feature>
+    </features>
+  </voter>
+</voters>

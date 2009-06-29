@@ -1,0 +1,43 @@
+== Pairwise Web Service
+Build of pairwise web service.
+
+== Ownership
+Copyright (c) 2009, Peter Lubell-Doughtie and the Trustees of Princeton
+University.
+All rights reserved.  See file ../LICENSE for license information.
+
+== Database
+Based on pairwise_schema.pdf
+
+== Log Analysis
+* ./vendor/plugins/oink/bin/oink --threshold=1 log/development.log
+* ./vendor/plugins/oink/bin/oink --threshold=1 log/production.log
+* pl_analyze log/development.log
+* pl_analyze log/production.log
+
+== Notes
+* Specs are not covering.
+* PromptRequest model is not being used.
+
+== Requirements
+* AASM
+* Haml
+* LibXML
+* Linalg
+* Oink
+* RSpec
+
+== Credentials
+Credentials must be added to the following files:
+* config/database.yml
+* config/deploy.rb
+* config/environment.rb
+* config/mailer.yml
+* config/initializers/site_keys.rb
+* db/bootstap/users.yml
+* lib/constants.rb
+
+== Deloy
+* config/deploy.rb set to current tag
+* config/environment.rb set PRODUCTION
+* If updated, new C RSVD code must be compiled on server

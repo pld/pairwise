@@ -1,0 +1,5 @@
+%vote{:id => @vote.id}
+  %prompt{:id => @vote.prompt_id}
+  %items
+    -for item in @vote.items
+      %item{:id => item.id}

@@ -1,0 +1,16 @@
+%h1 Listing prompt_algorithms
+
+%table
+  %tr
+    %th Name
+    %th Data
+
+  -for prompt_algorithm in @prompt_algorithms
+    %tr
+      %td=h prompt_algorithm.name
+      %td=h prompt_algorithm.data
+      %td= link_to 'Show', prompt_algorithm
+      %td= link_to 'Edit', edit_prompt_algorithm_path(prompt_algorithm)
+      %td= link_to 'Destroy', prompt_algorithm, :confirm => 'Are you sure?', :method => :delete
+%br
+= link_to 'New prompt_algorithm', new_prompt_algorithm_path

@@ -1,0 +1,18 @@
+%table
+  %tr
+    %td Name:
+    %td= user.login
+  %tr
+    %td Email:
+    %td= user.email
+  %tr
+    %td State:
+    %td= user.state
+  -if user.state == "passive"
+    %tr
+      %td Activation Code:
+      %td= user.activation_code
+%ul
+  %li= link_to 'Suspend', suspend_user_path(user)
+  %li= link_to 'Unsuspend', unsuspend_user_path(user)
+  %li= link_to 'Delete', users_path, :method => :delete, :id => user

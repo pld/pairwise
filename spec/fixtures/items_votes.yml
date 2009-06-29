@@ -1,0 +1,6 @@
+<% i = 0 %>
+<% 1.upto(2) do |j| %>
+item_votes_<%= i+=1 %>_<%= j %>:
+  item_id: <%= j %>
+  vote_id: <%= i %>
+<% end %>

@@ -1,0 +1,8 @@
+<% 1.upto(4) do |i| %>
+question<%= i %>:
+  id: <%= i %>
+  user_id: <%= i < 3 ? 1 : 2 %>
+  name: question<%= i %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+<% end %>

@@ -1,0 +1,6 @@
+%voters
+  -for voter in @voters
+    %voter{:id => voter.id}
+      %features
+        -for feature in voter.features
+          %feature{:name => feature.name}= cdata(feature.value)

@@ -1,0 +1,8 @@
+-if @item
+  %item{:id => @item.id, :active => active?(@item), :added => @item.created_at.to_s(:long)}
+    %data= cdata(@item.data.to_s)
+    -if @item.questions
+      %questions
+        -for question in @item.questions
+          -iq = ItemsQuestion.first(:conditions => { :item_id => @item.id, :question_id => question.id })
+          %question{:id => question.id, :rank => iq.position, :ratings => iq.ratings, :wins => iq.wins, :losses => iq.losses, :skips => iq.ratings - (iq.wins + iq.losses), :score => @score.call(question.id) }

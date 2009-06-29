@@ -1,0 +1,8 @@
+%h1 Editing rank_algorithm
+
+-form_for(@rank_algorithm) do |f|
+  = render :partial => 'form', :locals => { :f => f }
+  %p= f.submit "Update"
+= link_to 'Show', @rank_algorithm
+|
+= link_to 'Back', rank_algorithms_path

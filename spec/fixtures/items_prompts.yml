@@ -1,0 +1,8 @@
+<% 1.upto(50) do |i| %>
+item_prompt1_<%= i %>:
+  item_id: 1
+  prompt_id: <%= i %>
+item_prompt2_<%= i %>:
+  item_id: 2
+  prompt_id: <%= i %>
+<% end %>

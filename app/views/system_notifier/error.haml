@@ -1,0 +1,58 @@
+-require 'pp'
+%p
+  A
+  %strong=h @exception.class
+  occured in
+  %strong=h @controller.controller_name
+  \#
+  %strong=h @controller.action_name
+  \:
+  %pre=h @exception.message
+  %pre=h @backtrace.first
+%hr
+%p Request information:
+%hr
+%ul
+  %li
+    URL:
+    %pre=h @request.protocol
+    %pre=h @host
+    %pre=h @request.request_uri
+  %li
+    Parameters:
+    %pre=h @request.parameters.inspect
+  %li
+    Rails root:
+    %pre=h @rails_root
+%hr
+%p Session dump:
+%hr
+%ul
+-for variable in @request.session.instance_variables
+  -next if variable =~ /^@db/
+  %li
+    %strong=h variable
+    %pre=h escape_once(@request.session.instance_variable_get(variable).inspect.gsub(/\n/, "\n   ").strip)
+%hr
+%p Visit:
+%hr
+%ul
+-for key, value in @visit.attributes
+  %li
+    %strong=h key
+    \:
+    %pre=h value
+%hr
+%p Environment:
+%hr
+%ul
+-for key, value in @request.env
+  %li
+    %strong=h key
+    \:
+    %pre=h value.to_s.strip
+%hr
+%p Full execution backtrace:
+%hr
+  %pre= @backtrace.join "<br/>  "
+

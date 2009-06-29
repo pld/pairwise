@@ -1,0 +1,15 @@
+%prompts
+  -if @data
+    -for p in @prompts
+      %prompt{:id => p.id}
+        %items
+          -for i in p.items
+            %item{:id => i.id}= cdata(i.data)
+      %algorithm{:id => p.prompt_algorithm_id}/
+  -else
+    -for p in @prompts
+      %prompt{:id => p.id}
+        %items
+          -for i in p.items
+            %item{:id => i.id}/
+      %algorithm{:id => p.prompt_algorithm_id}/

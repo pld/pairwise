@@ -1,0 +1,6 @@
+random:
+  id: 1
+  name: random
+  data: ruby lib/algorithms/prompt/random.rb
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>

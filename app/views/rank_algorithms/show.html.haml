@@ -1,0 +1,9 @@
+%p
+  %strong Name:
+  =h @rank_algorithm.name
+%p
+  %strong Data:
+  =h @rank_algorithm.data
+= link_to 'Edit', edit_rank_algorithm_path(@rank_algorithm)
+|
+= link_to 'Back', rank_algorithms_path

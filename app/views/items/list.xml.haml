@@ -1,0 +1,9 @@
+%items{:count => @items.length}
+  -if @data
+    -for i in @items
+      -iq = i.items_questions.first
+      %item{:id => i.id, :active => active?(i), :rank => iq.position, :score => @score.call(i), :ratings => iq.ratings, :wins => iq.wins, :losses => iq.losses, :skips => iq.ratings - (iq.wins + iq.losses) ,:added => i.created_at.to_s(:long)}= cdata(i.data)
+  -else
+    -for i in @items
+      -iq = i.items_questions.first
+      %item{:id => i.id, :active => active?(i), :rank => iq.position, :score => @score.call(i), :ratings => iq.ratings, :wins => iq.wins, :losses => iq.losses, :skips => iq.ratings - (iq.wins + iq.losses), :added => i.created_at.to_s(:long)}/

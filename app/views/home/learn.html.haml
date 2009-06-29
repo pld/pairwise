@@ -1,0 +1,33 @@
+%h2 Pairwise Web Service API
+
+%p The Pairwise Web Service allows anyone to create pairwise comparison voting systems.  To participate you send us:
+%ol
+  %li questions to create pairs for (at least one)
+  %li items to vote on (at least two, but the more the better)
+  %li [optional] voters to track who votes on what
+  %li [optional] key value attributes for your voters
+
+%p Then you can send us API requests and we'll send back:
+%ol
+  %li pairs of items to vote on (prompts)
+  %li== rankings of the items based on their votes (by percent wins or #{link_to('Elo Score', 'http://en.wikipedia.org/wiki/Elo_rating_system')})
+  %li the number of votes, wins, losses, and skips for items, questions, and for all your questions
+
+%p To record a vote send us the item your user clicks on, or skips.  You can also send us when a user has viewed a prompt and generate statistics on which prompts are more popular.
+
+%p All data is opaque so we will only know relationships between objects.  A REST interface is used with POST replacing PUT as some servers do not support PUT.  Although, if you prefer, you can use query strings.
+
+%p Authentication is performed using an HTTP request header with basic authorization dependent upon a login and password you'll choose when signing up.  If you wish, SSL can be used by interacting over HTTPS.
+
+%p== For details on using the API refer to the #{link_to('Developer API Documentation', api_path)}.
+
+%h3 Additional Resources
+
+%p Ruby on Rails Pairwise Plugin
+%ul
+  %li= link_to('Git Project Page', 'http://github.com/pld/ror-pairwise/tree/master')
+  %li= link_to('RDoc Documentation', 'http://code.helioid.com/ror-pairwise/')
+%p Pairwise Website
+%ul
+  %li= link_to('Git Project Page', 'http://github.com/pld/pairwise/tree/master')
+  %li= link_to('RDoc Documentation', 'http://code.helioid.com/pairwise/')

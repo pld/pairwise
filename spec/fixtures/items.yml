@@ -1,0 +1,9 @@
+<% 1.upto(15) do |i| %>
+item<%= i %>:
+  id: <%= i %>
+  user_id: <%= i <= 10 ? 1 : 2 %>
+  data: item<%= i %>
+  active: <%= true %>
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+<% end %>

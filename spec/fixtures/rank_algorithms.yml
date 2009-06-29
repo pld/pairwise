@@ -1,0 +1,18 @@
+simple:
+  id: 1
+  name: elo
+  data: ruby lib/algorithms/rank/elo.rb
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+avg:
+  id: 2
+  name: avg
+  data: 1
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>
+ewp:
+  id: 3
+  name: ewp
+  data: 1
+  created_at: <%= Time.now.to_s(:db) %>
+  updated_at: <%= Time.now.to_s(:db) %>

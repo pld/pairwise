@@ -1,0 +1,7 @@
+one:
+  item_id: 1
+  prompt_request_id: 1
+
+two:
+  item_id: 1
+  prompt_request_id: 2

@@ -1,0 +1,15 @@
+%prompts
+  %algorithm{:id => @algorithm_id}/
+  %question{:id => @question_id}/
+  -if @data
+    -for prompt_id, prompt_item_ids in @prompt_item_ids
+      %prompt{:id => prompt_id}
+        %items
+          -for id in prompt_item_ids
+            %item{:id => id}= cdata(Item.find(id).data)
+  -else
+    -for prompt_id, prompt_item_ids in @prompt_item_ids
+      %prompt{:id => prompt_id}
+        %items
+          -for id in prompt_item_ids
+            %item{:id => id}/

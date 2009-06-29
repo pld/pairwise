@@ -1,0 +1,7 @@
+<% 1.upto(50) do |i| %>
+prompt_<%= i %>:
+  id: <%= i %>
+  question_id: 1
+  prompt_algorithm_id: 1
+  voter_id: 0
+ <% end %>

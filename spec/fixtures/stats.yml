@@ -1,0 +1,16 @@
+one:
+  id: 1
+  rank_algorithm_id: 2
+  question_id: 1
+  views: 0
+  votes: 0
+  score: 0
+
+
+two:
+  id: 2
+  rank_algorithm_id: 2
+  question_id: 1
+  views: 0
+  votes: 0
+  score: 0

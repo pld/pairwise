@@ -1,0 +1,3 @@
+%questions{:items => @items_count, :active_and_inactive_items => @all_items_count, :votes => @votes_count}
+  -for question in @questions
+    %question{:id => question.id}= cdata(question.name)

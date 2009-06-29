@@ -1,0 +1,2 @@
+-if @question
+  %question{:id => @question.id, :items => @items_count, :active_and_inactive_items => @all_items_count, :votes => @votes_count}= cdata(@question.name)

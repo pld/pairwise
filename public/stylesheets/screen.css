@@ -1,0 +1,87 @@
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 10px 50px; }
+
+.content {
+  margin: auto;
+  min-width: 700px;
+  width: 100%;
+  overflow: hidden; }
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px; }
+
+a {
+  color: #00F; }
+  a:visited {
+    color: #00F; }
+  a:hover {
+    color: #fff;
+    background-color: #000; }
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table; }
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0; }
+  #errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff; }
+  #errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px; }
+  #errorExplanation ul li {
+    font-size: 12px;
+    list-style: square; }
+
+.notice {
+  color: green; }
+
+table.form tr td:first-child {
+  text-align: right; }
+
+ul.horizontal {
+  padding: 0 0 2em 0; }
+  ul.horizontal li {
+    list-style: none;
+    padding: 0 1em 0;
+    float: left; }
+
+ul.footer {
+  margin-top: 1.5em;
+  border-top: 1px solid #000; }
+  ul.footer li {
+    padding: 0.5em 1em 0; }
+
+.methods {
+  background: #DDD;
+  border: 1px solid #000;
+  padding: 1em;
+  width: 900px;
+  margin: 1em; }
+  .methods dt {
+    font-weight: bold; }
+  .methods dd {
+    margin-left: 1em; }
+
+table.info td.image {
+  padding-right: 4em; }

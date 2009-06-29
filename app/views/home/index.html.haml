@@ -1,0 +1,20 @@
+%h2 API Debug Interface
+%table
+  %tr
+    %td
+      %label url
+    %td= text_field_tag 'url', nil, :size => 100
+  %tr
+    %td
+      %label post
+    %td= text_area_tag 'post', nil, :size => "60x10"
+  %tr
+    %td
+    %td
+      = submit_tag 'send', :onclick => "postTest($F('url'), $F('post'), 'response')"
+  %tr
+    %td
+      %label response
+    %td= text_area_tag 'response', nil, :size => "60x10"
+%p= link_to('Clear All Data', { :action => 'delete' }, :confirm => 'This will destroy ALL data associated with your account. It is irreversible. Are you sure?', :method => :post)
+%p= link_to('Clear All Item Data', { :action => 'delete_items' }, :confirm => 'This will destroy ALL data associated with your account. It is irreversible. Are you sure?', :method => :post)

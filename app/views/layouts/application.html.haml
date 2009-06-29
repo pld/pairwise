@@ -1,0 +1,15 @@
+!!! 1.0
+%html{:xmlns => "http://www.w3.org/1999/xhtml", :'xml:lang' => "en", :lang => "en"}
+  %head
+    %meta{:'http-equiv' => "content-type", :content => "text/html;charset=UTF-8"}
+    %link{:rel => "shortcut icon", :href => "/favicon.ico"}
+    %title Pairwise
+    = stylesheet_link_tag 'screen'
+    = javascript_include_tag :defaults
+  %body
+    .content
+      = render :partial => "shared/header"
+      %p.notice= flash[:notice]
+      = yield
+      = analytics
+      = render :partial => "shared/footer"

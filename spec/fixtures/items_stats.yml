@@ -1,0 +1,7 @@
+<% 1.upto(10) do |j| %>
+<% 1.upto(2) do |i| %>
+items_stats<%= i %>_<%= j %>:
+  item_id: <%= j %>
+  stat_id: <%= i %>
+<% end %>
+<% end %>

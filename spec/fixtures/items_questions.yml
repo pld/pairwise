@@ -1,0 +1,11 @@
+<% 1.upto(15) do |i| %>
+item_question<%= i %>:
+  id: <%= i %>
+  item_id: <%= i %>
+  question_id: 1
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+  position: <%= 1400 + 10*i %>
+  wins: 1
+  ratings: 1
+<% end %>

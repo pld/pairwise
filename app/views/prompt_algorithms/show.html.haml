@@ -1,0 +1,9 @@
+%p
+  %strong Name:
+  =h @prompt_algorithm.name
+%p
+  %strong Data:
+  =h @prompt_algorithm.data
+= link_to 'Edit', edit_prompt_algorithm_path(@prompt_algorithm)
+|
+= link_to 'Back', prompt_algorithms_path

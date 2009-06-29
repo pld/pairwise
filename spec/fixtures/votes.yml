@@ -1,0 +1,6 @@
+<% 1.upto(50) do |i| %>
+vote_<%= i %>:
+  id: <%=  %>
+  prompt_id: <%= i %>
+  voter_id: 0
+<% end %>

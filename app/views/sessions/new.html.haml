@@ -1,0 +1,38 @@
+%h2 Pairwise Web Service API
+%table.info
+  %tr
+    %td
+      %p  With the Pairwise Web Service anyone can build community-generated and community-sorted websites. These websites let the best ideas in your group or organization "bubble to the top" all in a democratic, transparent, and bottom-up process.
+      %p
+        For example, the
+        = link_to('Princeton Undergraduate Student Government', 'http://www.dailyprincetonian.com/2009/01/12/22505/')
+        used a site like this to learn about the best ways to improve campus life. In a matter of weeks, more than 2,000 students contributed more than 40,000 votes on more than 300 suggestions, about 100 of which were uploaded by the students themselves.
+      %p
+        In addition to text, community-generated and community-sorted information websites can be used for to handle images as was done in
+        == #{link_to('Photocracy', 'http://www.photocracy.org')},
+        a project to study national identity and cross-national perceptions.
+    %td.image= image_tag('which_do_you_want_more_schematic_wranking.png', :width => 400)
+%h3 Sites already using the Pairwise Web Service
+%p= link_to("Photocracy", 'http://www.photocracy.org')
+%p= link_to("Princeton Art of Science 2009", 'http://www.princeton.edu/artofscience/2009/vote/')
+
+%h3 Learn more about using the Pairwise Web Service
+%p= link_to('Learn More', learn_path)
+%p= link_to('API Documentation', api_path)
+%br
+%p== If you want to create a community-generated and community-sorted information website without programming, try #{link_to("All Our Ideas", 'http://www.allourideas.org')}.
+%p== The Pairwise Web Service is an open source project. View our #{link_to('code', 'http://github.com/pld/pairwise/tree/master')}.
+%br
+-form_tag session_path do
+  %table
+    %tr
+      %td= label_tag 'email'
+      %td= text_field_tag 'email', @email
+    %tr
+      %td= label_tag 'password'
+      %td= password_field_tag 'password', nil
+    %tr
+      %td
+      %td
+        = submit_tag 'Log in'
+        = link_to 'Sign up', signup_path

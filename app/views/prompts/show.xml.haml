@@ -1,0 +1,6 @@
+-if @prompt
+  %prompt{:id => @prompt.id, :active => @prompt.active}
+    %question{:id => @prompt.question.id}/
+    %items
+      -for item in @prompt.items
+        %item{:id => item.id}/
