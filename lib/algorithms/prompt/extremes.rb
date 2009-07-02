@@ -17,7 +17,10 @@ module Algorithms::Prompt::Extremes
     # voter_id<int>:: Generate prompts for this voter ID
     # count<int>:: Generate this number of prompts
     def prompts(question_id, voter_id, count)
-      all_items = items_for_request(question_id)
+      all_items = Item.all(conditions(question_id).merge(
+        :group => "items.id",
+        :order => "items_questions.wins / (items_questions.wins + items_questions.losses) DESC"
+      ))
       top_items = all_items.first(all_items.length / 2)
       bottom_items = all_items - top_items
       cur_top_items = []
