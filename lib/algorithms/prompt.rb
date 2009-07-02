@@ -13,13 +13,7 @@ module Algorithms::Prompt
     srand if PRODUCTION
     case algo
     when 2
-      result = ActiveRecord::Base.connection.execute(
-        "SELECT id,score FROM stats WHERE question_id=#{question_id} ORDER BY score;"
-      )
-      # TODO: choose min value with more justification
-      if result.num_rows > 2
-        prompts = Algorithms::Prompt::Popular.prompts(question_id, voter_id, count, result)
-      end
+      prompts = Algorithms::Prompt::Popular.prompts(question_id, voter_id, count)
     when 3
       prompts = Algorithms::Prompt::Extremes.prompts(question_id, voter_id, count)
     end

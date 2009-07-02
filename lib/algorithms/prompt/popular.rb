@@ -13,8 +13,12 @@ module Algorithms::Prompt::Popular
     # question_id<int>:: Generate prompts for this question ID
     # voter_id<int>:: Generate prompts for this voter ID
     # count<int>:: Generate this number of prompts
-    # result<Mysql::Result>:: Stats values.
-    def prompts(question_id, voter_id, count, result)
+    def prompts(question_id, voter_id, count)
+      result = ActiveRecord::Base.connection.execute(
+        "SELECT id,score FROM stats WHERE question_id=#{question_id} ORDER BY score;"
+      )
+      # TODO: choose min value with more justification
+      return nil unless result.num_rows > 2
       # make all stats positive by adding |min(stats)| + 1 to all stats
       prompt_item_ids = {}
       norm = cur = 0
