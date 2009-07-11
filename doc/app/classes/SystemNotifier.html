@@ -86,7 +86,7 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000083">exception</a>&nbsp;&nbsp;
+      <a href="#M000084">error</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -126,22 +126,22 @@
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000083" class="method-detail">
-        <a name="M000083"></a>
+      <div id="method-M000084" class="method-detail">
+        <a name="M000084"></a>
 
         <div class="method-heading">
-          <a href="#M000083" class="method-signature">
-          <span class="method-name">exception</span><span class="method-args">(controller, request, visit, exception, sent_on = Time.now)</span>
+          <a href="#M000084" class="method-signature">
+          <span class="method-name">error</span><span class="method-args">(controller, request, exception, sent_on = Time.now)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000083-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000083-source">
+            onclick="toggleCode('M000084-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000084-source">
 <pre>
     <span class="ruby-comment cmt"># File app/models/system_notifier.rb, line 5</span>
- 5:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exception</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">request</span>, <span class="ruby-identifier">visit</span>, <span class="ruby-identifier">exception</span>, <span class="ruby-identifier">sent_on</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>)
+ 5:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">request</span>, <span class="ruby-identifier">exception</span>, <span class="ruby-identifier">sent_on</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>)
  6:     <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;[ERROR] %s\#%s (%s) %s&quot;</span>, <span class="ruby-identifier">controller</span>.<span class="ruby-identifier">controller_name</span>, <span class="ruby-identifier">controller</span>.<span class="ruby-identifier">action_name</span>, <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">class</span>, <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span>.<span class="ruby-identifier">inspect</span>)
  7:     <span class="ruby-ivar">@body</span> = {
  8:       <span class="ruby-identifier">:controller</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">controller</span>,
@@ -149,13 +149,12 @@
 10:       <span class="ruby-identifier">:exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">exception</span>,
 11:       <span class="ruby-identifier">:backtrace</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sanitize_backtrace</span>(<span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>),
 12:       <span class="ruby-identifier">:host</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">env</span>[<span class="ruby-value str">&quot;HTTP_HOST&quot;</span>], <span class="ruby-value str">&quot;rails_root&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rails_root</span>,
-13:       <span class="ruby-identifier">:visit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">visit</span>
-14:     }
-15:     <span class="ruby-ivar">@sent_on</span> = <span class="ruby-identifier">sent_on</span>
-16:     <span class="ruby-ivar">@from</span> = <span class="ruby-constant">SYSTEM_EMAIL_ADDRESS</span>
-17:     <span class="ruby-ivar">@recipients</span> = <span class="ruby-constant">EXCEPTION_RECIPIENTS</span>
-18:     <span class="ruby-ivar">@content_type</span> = <span class="ruby-value str">&quot;text/html&quot;</span>
-19:   <span class="ruby-keyword kw">end</span>
+13:     }
+14:     <span class="ruby-ivar">@sent_on</span> = <span class="ruby-identifier">sent_on</span>
+15:     <span class="ruby-ivar">@from</span> = <span class="ruby-constant">SYSTEM_EMAIL_ADDRESS</span>
+16:     <span class="ruby-ivar">@recipients</span> = <span class="ruby-constant">EXCEPTION_RECIPIENTS</span>
+17:     <span class="ruby-ivar">@content_type</span> = <span class="ruby-value str">&quot;text/html&quot;</span>
+18:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

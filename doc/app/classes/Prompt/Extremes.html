@@ -80,7 +80,7 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000063">prompts</a>&nbsp;&nbsp;
+      <a href="#M000064">prompts</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -128,63 +128,66 @@ database data and sync here to match DB IDs. algorithm ID
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000063" class="method-detail">
-        <a name="M000063"></a>
+      <div id="method-M000064" class="method-detail">
+        <a name="M000064"></a>
 
         <div class="method-heading">
-          <a href="#M000063" class="method-signature">
+          <a href="#M000064" class="method-signature">
           <span class="method-name">prompts</span><span class="method-args">(question_id, voter_id, count)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Generate count number of <a href="Extremes.html#M000063">prompts</a> based
+Generate count number of <a href="Extremes.html#M000064">prompts</a> based
 on question ID and voter ID by placing high rating prompt against low
-ratings <a href="Extremes.html#M000063">prompts</a> as measured by winning
+ratings <a href="Extremes.html#M000064">prompts</a> as measured by winning
 percentage.
 </p>
 <h4>Return</h4>
 <p>
-An array of <a href="Extremes.html#M000063">prompts</a>
+An array of <a href="Extremes.html#M000064">prompts</a>
 </p>
 <h4>Parameters</h4>
 <table>
-<tr><td valign="top">question_id&lt;int&gt;:</td><td>Generate <a href="Extremes.html#M000063">prompts</a> for this question ID
+<tr><td valign="top">question_id&lt;int&gt;:</td><td>Generate <a href="Extremes.html#M000064">prompts</a> for this question ID
 
 </td></tr>
-<tr><td valign="top">voter_id&lt;int&gt;:</td><td>Generate <a href="Extremes.html#M000063">prompts</a> for this voter ID
+<tr><td valign="top">voter_id&lt;int&gt;:</td><td>Generate <a href="Extremes.html#M000064">prompts</a> for this voter ID
 
 </td></tr>
-<tr><td valign="top">count&lt;int&gt;:</td><td>Generate this number of <a href="Extremes.html#M000063">prompts</a>
+<tr><td valign="top">count&lt;int&gt;:</td><td>Generate this number of <a href="Extremes.html#M000064">prompts</a>
 
 </td></tr>
 </table>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000063-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000063-source">
+            onclick="toggleCode('M000064-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000064-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/algorithms/prompt/extremes.rb, line 19</span>
 19:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prompts</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-identifier">count</span>)
-20:       <span class="ruby-identifier">all_items</span> = <span class="ruby-identifier">items_for_request</span>(<span class="ruby-identifier">question_id</span>)
-21:       <span class="ruby-identifier">top_items</span> = <span class="ruby-identifier">all_items</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">all_items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
-22:       <span class="ruby-identifier">bottom_items</span> = <span class="ruby-identifier">all_items</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">top_items</span>
-23:       <span class="ruby-identifier">cur_top_items</span> = []
-24:       <span class="ruby-identifier">cur_bottom_items</span> = []
-25:       <span class="ruby-identifier">prompt_item_ids</span> = {}
-26:       <span class="ruby-comment cmt"># leaks with create/find in req loop</span>
-27:       <span class="ruby-constant">Prompt</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword kw">do</span>
-28:         <span class="ruby-identifier">count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-29:           <span class="ruby-identifier">cur_top_items</span> = <span class="ruby-identifier">top_items</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-comment cmt"># ensure we still have items</span>
-30:           <span class="ruby-identifier">cur_bottom_items</span> = <span class="ruby-identifier">bottom_items</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">empty?</span>
-31:           <span class="ruby-identifier">prompt</span> = <span class="ruby-identifier">prompt_for_request</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-constant">ID</span>)
-32:           <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">items</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">rand</span>(<span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">length</span>)) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">rand</span>(<span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">length</span>))
-33:           <span class="ruby-keyword kw">redo</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bad_prompt?</span>(<span class="ruby-identifier">prompt</span>)
-34:           <span class="ruby-identifier">prompt_item_ids</span>[<span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">id</span>] = <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">item_ids</span>
-35:         <span class="ruby-keyword kw">end</span>
-36:       <span class="ruby-keyword kw">end</span>
-37:       <span class="ruby-identifier">prompt_item_ids</span>
-38:     <span class="ruby-keyword kw">end</span>
+20:       <span class="ruby-identifier">all_items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">conditions</span>(<span class="ruby-identifier">question_id</span>).<span class="ruby-identifier">merge</span>(
+21:         <span class="ruby-identifier">:group</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;items.id&quot;</span>,
+22:         <span class="ruby-identifier">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;items_questions.wins / (items_questions.wins + items_questions.losses) DESC&quot;</span>
+23:       ))
+24:       <span class="ruby-identifier">top_items</span> = <span class="ruby-identifier">all_items</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">all_items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+25:       <span class="ruby-identifier">bottom_items</span> = <span class="ruby-identifier">all_items</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">top_items</span>
+26:       <span class="ruby-identifier">cur_top_items</span> = []
+27:       <span class="ruby-identifier">cur_bottom_items</span> = []
+28:       <span class="ruby-identifier">prompt_item_ids</span> = {}
+29:       <span class="ruby-comment cmt"># leaks with create/find in req loop</span>
+30:       <span class="ruby-constant">Prompt</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword kw">do</span>
+31:         <span class="ruby-identifier">count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+32:           <span class="ruby-identifier">cur_top_items</span> = <span class="ruby-identifier">top_items</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-comment cmt"># ensure we still have items</span>
+33:           <span class="ruby-identifier">cur_bottom_items</span> = <span class="ruby-identifier">bottom_items</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">empty?</span>
+34:           <span class="ruby-identifier">prompt</span> = <span class="ruby-identifier">prompt_for_request</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-constant">ID</span>)
+35:           <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">items</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">rand</span>(<span class="ruby-identifier">cur_top_items</span>.<span class="ruby-identifier">length</span>)) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">rand</span>(<span class="ruby-identifier">cur_bottom_items</span>.<span class="ruby-identifier">length</span>))
+36:           <span class="ruby-keyword kw">redo</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bad_prompt?</span>(<span class="ruby-identifier">prompt</span>)
+37:           <span class="ruby-identifier">prompt_item_ids</span>[<span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">id</span>] = <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">item_ids</span>
+38:         <span class="ruby-keyword kw">end</span>
+39:       <span class="ruby-keyword kw">end</span>
+40:       <span class="ruby-identifier">prompt_item_ids</span>
+41:     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

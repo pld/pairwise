@@ -156,10 +156,10 @@ GET /items/activate/1
             onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000012-source">
 <pre>
-     <span class="ruby-comment cmt"># File app/controllers/items_controller.rb, line 189</span>
-189:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">activate</span>
-190:     <span class="ruby-identifier">update_item_state</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>], <span class="ruby-value">1</span>)
-191:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File app/controllers/items_controller.rb, line 194</span>
+194:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">activate</span>
+195:     <span class="ruby-identifier">update_item_state</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>], <span class="ruby-value">1</span>)
+196:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -365,8 +365,8 @@ by created at date.
 118:     <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>
 119:       <span class="ruby-comment cmt"># set score to percent wins after case</span>
 120:     <span class="ruby-keyword kw">when</span> <span class="ruby-value">3</span>
-121:       <span class="ruby-comment cmt"># assume items order by ewp are in length of items order win percent * 2</span>
-122:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:limit</span>] <span class="ruby-operator">*=</span> <span class="ruby-value">2</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">limit</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+121:       <span class="ruby-comment cmt"># unset limit and truncate after sort</span>
+122:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:limit</span>] = <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">limit</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 123:       <span class="ruby-ivar">@items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">options</span>)
 124:       <span class="ruby-identifier">stats</span> = <span class="ruby-identifier">ewp_all</span>(<span class="ruby-ivar">@items</span>, <span class="ruby-identifier">question_id</span>).<span class="ruby-identifier">inject</span>({}) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">stat</span><span class="ruby-operator">|</span>
 125:         <span class="ruby-identifier">h</span>[<span class="ruby-identifier">stat</span>.<span class="ruby-identifier">item_id</span>.<span class="ruby-identifier">to_i</span>] = <span class="ruby-identifier">stat_to_percent</span>(<span class="ruby-identifier">stat</span>)
@@ -379,41 +379,46 @@ by created at date.
 132:       <span class="ruby-ivar">@items</span> = <span class="ruby-ivar">@items</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">limit</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">limit</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 133:       <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">score</span> }
 134:     <span class="ruby-keyword kw">when</span> <span class="ruby-value">4</span>
-135:       <span class="ruby-identifier">res</span> = <span class="ruby-identifier">row_list</span>(<span class="ruby-identifier">question_id</span>).<span class="ruby-identifier">inject</span>({}) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">stat</span><span class="ruby-operator">|</span>
-136:         <span class="ruby-identifier">h</span>[<span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">to_i</span>] = <span class="ruby-identifier">stat</span>[<span class="ruby-value">0</span>]
-137:         <span class="ruby-identifier">h</span>
-138:       <span class="ruby-keyword kw">end</span>
-139:       <span class="ruby-ivar">@items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">options</span>)
-140:       <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">item</span> <span class="ruby-keyword kw">in</span> <span class="ruby-ivar">@items</span>
-141:         <span class="ruby-identifier">item</span>.<span class="ruby-identifier">score</span> = <span class="ruby-identifier">res</span>[<span class="ruby-identifier">item</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
-142:       <span class="ruby-keyword kw">end</span>
-143:       <span class="ruby-ivar">@items</span> = <span class="ruby-ivar">@items</span>.<span class="ruby-identifier">sort_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-operator">-</span><span class="ruby-identifier">el</span>.<span class="ruby-identifier">score</span> }
-144:       <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">score</span> }
-145:     <span class="ruby-keyword kw">else</span>
-146:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:order</span>] = <span class="ruby-value str">'items.created_at'</span>
-147:     <span class="ruby-keyword kw">end</span>
-148:     <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@score</span>
-149:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">question_id</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
-150:         <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-151:           <span class="ruby-identifier">iq</span> = <span class="ruby-identifier">i</span>.<span class="ruby-identifier">items_questions</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:question_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">question_id</span> })
-152:           <span class="ruby-identifier">wins</span> = <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">wins</span>.<span class="ruby-identifier">to_f</span>
-153:           <span class="ruby-identifier">total</span> = <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">wins</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">losses</span>
-154:           <span class="ruby-identifier">total</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-value">? </span><span class="ruby-value">0</span> <span class="ruby-operator">:</span> (<span class="ruby-value">100</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">wins</span><span class="ruby-operator">/</span><span class="ruby-identifier">total</span>)).<span class="ruby-identifier">round</span>
-155:         <span class="ruby-keyword kw">end</span>
-156:       <span class="ruby-keyword kw">else</span>
-157:         <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-158:           <span class="ruby-identifier">iqs</span> = <span class="ruby-identifier">i</span>.<span class="ruby-identifier">items_questions</span>.<span class="ruby-identifier">all</span>
-159:           <span class="ruby-identifier">wins</span> = <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">sumup</span>(<span class="ruby-identifier">:wins</span>).<span class="ruby-identifier">to_f</span>
-160:           <span class="ruby-identifier">total</span> = <span class="ruby-identifier">wins</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">sumup</span>(<span class="ruby-identifier">:losses</span>)
-161:           <span class="ruby-identifier">total</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-value">? </span><span class="ruby-value">0</span> <span class="ruby-operator">:</span> ((<span class="ruby-value">100</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">wins</span><span class="ruby-operator">/</span><span class="ruby-identifier">total</span>)) <span class="ruby-operator">/</span> <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">length</span>).<span class="ruby-identifier">round</span>
-162:         <span class="ruby-keyword kw">end</span>
-163:       <span class="ruby-keyword kw">end</span>
-164:     <span class="ruby-keyword kw">end</span>
-165:     <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@items</span>
-166:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:order</span>] <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; #{order}&quot;</span>
-167:       <span class="ruby-ivar">@items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">options</span>)
-168:     <span class="ruby-keyword kw">end</span>
-169:   <span class="ruby-keyword kw">end</span>
+135:       <span class="ruby-identifier">res</span> = <span class="ruby-identifier">row_list</span>(<span class="ruby-identifier">question_id</span>)
+136:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">res</span>
+137:         <span class="ruby-identifier">res</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">inject</span>({}) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">stat</span><span class="ruby-operator">|</span>
+138:           <span class="ruby-identifier">h</span>[<span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">to_i</span>] = <span class="ruby-identifier">stat</span>[<span class="ruby-value">0</span>]
+139:           <span class="ruby-identifier">h</span>
+140:         <span class="ruby-keyword kw">end</span>
+141:         <span class="ruby-ivar">@items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">options</span>)
+142:         <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">item</span> <span class="ruby-keyword kw">in</span> <span class="ruby-ivar">@items</span>
+143:           <span class="ruby-identifier">item</span>.<span class="ruby-identifier">score</span> = <span class="ruby-identifier">res</span>[<span class="ruby-identifier">item</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+144:         <span class="ruby-keyword kw">end</span>
+145:         <span class="ruby-ivar">@items</span> = <span class="ruby-ivar">@items</span>.<span class="ruby-identifier">sort_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-operator">-</span><span class="ruby-identifier">el</span>.<span class="ruby-identifier">score</span> }
+146:         <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">score</span> }
+147:       <span class="ruby-keyword kw">else</span>
+148:         <span class="ruby-ivar">@items</span> = []
+149:       <span class="ruby-keyword kw">end</span>
+150:     <span class="ruby-keyword kw">else</span>
+151:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:order</span>] = <span class="ruby-value str">'items.created_at'</span>
+152:     <span class="ruby-keyword kw">end</span>
+153:     <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@score</span>
+154:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">question_id</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+155:         <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+156:           <span class="ruby-identifier">iq</span> = <span class="ruby-identifier">i</span>.<span class="ruby-identifier">items_questions</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">:question_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">question_id</span> })
+157:           <span class="ruby-identifier">wins</span> = <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">wins</span>.<span class="ruby-identifier">to_f</span>
+158:           <span class="ruby-identifier">total</span> = <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">wins</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">iq</span>.<span class="ruby-identifier">losses</span>
+159:           <span class="ruby-identifier">total</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-value">? </span><span class="ruby-value">0</span> <span class="ruby-operator">:</span> (<span class="ruby-value">100</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">wins</span><span class="ruby-operator">/</span><span class="ruby-identifier">total</span>)).<span class="ruby-identifier">round</span>
+160:         <span class="ruby-keyword kw">end</span>
+161:       <span class="ruby-keyword kw">else</span>
+162:         <span class="ruby-ivar">@score</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+163:           <span class="ruby-identifier">iqs</span> = <span class="ruby-identifier">i</span>.<span class="ruby-identifier">items_questions</span>.<span class="ruby-identifier">all</span>
+164:           <span class="ruby-identifier">wins</span> = <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">sumup</span>(<span class="ruby-identifier">:wins</span>).<span class="ruby-identifier">to_f</span>
+165:           <span class="ruby-identifier">total</span> = <span class="ruby-identifier">wins</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">sumup</span>(<span class="ruby-identifier">:losses</span>)
+166:           <span class="ruby-identifier">total</span>.<span class="ruby-identifier">zero?</span> <span class="ruby-value">? </span><span class="ruby-value">0</span> <span class="ruby-operator">:</span> ((<span class="ruby-value">100</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">wins</span><span class="ruby-operator">/</span><span class="ruby-identifier">total</span>)) <span class="ruby-operator">/</span> <span class="ruby-identifier">iqs</span>.<span class="ruby-identifier">length</span>).<span class="ruby-identifier">round</span>
+167:         <span class="ruby-keyword kw">end</span>
+168:       <span class="ruby-keyword kw">end</span>
+169:     <span class="ruby-keyword kw">end</span>
+170:     <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@items</span>
+171:       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:order</span>] <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; #{order}&quot;</span>
+172:       <span class="ruby-ivar">@items</span> = <span class="ruby-constant">Item</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">options</span>)
+173:     <span class="ruby-keyword kw">end</span>
+174:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -518,10 +523,10 @@ GET /items/suspend/1
             onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000011-source">
 <pre>
-     <span class="ruby-comment cmt"># File app/controllers/items_controller.rb, line 178</span>
-178:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">suspend</span>
-179:     <span class="ruby-identifier">update_item_state</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>], <span class="ruby-value">0</span>)
-180:   <span class="ruby-keyword kw">end</span>
+     <span class="ruby-comment cmt"># File app/controllers/items_controller.rb, line 183</span>
+183:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">suspend</span>
+184:     <span class="ruby-identifier">update_item_state</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>], <span class="ruby-value">0</span>)
+185:   <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>

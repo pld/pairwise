@@ -80,7 +80,7 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000062">prompts</a>&nbsp;&nbsp;
+      <a href="#M000063">prompts</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -127,18 +127,18 @@ algorithm ID
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000062" class="method-detail">
-        <a name="M000062"></a>
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
 
         <div class="method-heading">
-          <a href="#M000062" class="method-signature">
-          <span class="method-name">prompts</span><span class="method-args">(question_id, voter_id, count, result)</span>
+          <a href="#M000063" class="method-signature">
+          <span class="method-name">prompts</span><span class="method-args">(question_id, voter_id, count)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Generate count number of primed <a href="Popular.html#M000062">prompts</a>
+Generate count number of primed <a href="Popular.html#M000063">prompts</a>
 based on question ID, voter ID and stats.
 </p>
 <h4>Return</h4>
@@ -147,52 +147,54 @@ Hash with prompt IDs as keys and item IDs for that prompt as values.
 </p>
 <h4>Parameters</h4>
 <table>
-<tr><td valign="top">question_id&lt;int&gt;:</td><td>Generate <a href="Popular.html#M000062">prompts</a> for this question ID
+<tr><td valign="top">question_id&lt;int&gt;:</td><td>Generate <a href="Popular.html#M000063">prompts</a> for this question ID
 
 </td></tr>
-<tr><td valign="top">voter_id&lt;int&gt;:</td><td>Generate <a href="Popular.html#M000062">prompts</a> for this voter ID
+<tr><td valign="top">voter_id&lt;int&gt;:</td><td>Generate <a href="Popular.html#M000063">prompts</a> for this voter ID
 
 </td></tr>
-<tr><td valign="top">count&lt;int&gt;:</td><td>Generate this number of <a href="Popular.html#M000062">prompts</a>
-
-</td></tr>
-<tr><td valign="top">result&lt;Mysql::Result&gt;:</td><td>Stats values.
+<tr><td valign="top">count&lt;int&gt;:</td><td>Generate this number of <a href="Popular.html#M000063">prompts</a>
 
 </td></tr>
 </table>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000062-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000062-source">
+            onclick="toggleCode('M000063-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000063-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/algorithms/prompt/popular.rb, line 17</span>
-17:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prompts</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-identifier">count</span>, <span class="ruby-identifier">result</span>)
-18:       <span class="ruby-comment cmt"># make all stats positive by adding |min(stats)| + 1 to all stats</span>
-19:       <span class="ruby-identifier">prompt_item_ids</span> = {}
-20:       <span class="ruby-identifier">norm</span> = <span class="ruby-identifier">cur</span> = <span class="ruby-value">0</span>
-21:       <span class="ruby-identifier">stats</span> = []
-22:       <span class="ruby-identifier">stat</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fetch_hash</span>
-23:       <span class="ruby-identifier">min</span> = <span class="ruby-identifier">stat</span>[<span class="ruby-value str">'score'</span>].<span class="ruby-identifier">to_f</span>.<span class="ruby-identifier">abs</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
-24:       <span class="ruby-keyword kw">while</span> <span class="ruby-operator">!</span><span class="ruby-identifier">stat</span>.<span class="ruby-identifier">nil?</span>
-25:         <span class="ruby-identifier">norm</span> <span class="ruby-operator">+=</span> (<span class="ruby-identifier">adj</span> = <span class="ruby-identifier">stat</span>[<span class="ruby-value str">'score'</span>].<span class="ruby-identifier">to_f</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">min</span>)
-26:         <span class="ruby-identifier">stats</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">stat</span>[<span class="ruby-value str">'id'</span>].<span class="ruby-identifier">to_i</span>, [<span class="ruby-identifier">cur</span>, <span class="ruby-identifier">cur</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">adj</span>]]
-27:         <span class="ruby-identifier">stat</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fetch_hash</span>
-28:       <span class="ruby-keyword kw">end</span>
-29:       <span class="ruby-identifier">result</span>.<span class="ruby-identifier">free</span>
-30:       <span class="ruby-constant">Prompt</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword kw">do</span>
-31:         <span class="ruby-identifier">count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-32:           <span class="ruby-identifier">prompt</span> = <span class="ruby-identifier">prompt_for_request</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-constant">ID</span>)
-33:           <span class="ruby-comment cmt"># choose the stat [0] &lt;= r &lt; [1]</span>
-34:           <span class="ruby-identifier">r</span> = <span class="ruby-identifier">rand</span>(<span class="ruby-identifier">norm</span>)
-35:           <span class="ruby-comment cmt"># detect treats hash as [key, value] array</span>
-36:           <span class="ruby-identifier">stat_id</span> = <span class="ruby-identifier">stats</span>.<span class="ruby-identifier">detect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">stat</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>][<span class="ruby-value">0</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>][<span class="ruby-value">1</span>] }[<span class="ruby-value">0</span>]
-37:           <span class="ruby-identifier">item_ids</span> = <span class="ruby-constant">Stat</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">stat_id</span>).<span class="ruby-identifier">item_ids</span>
-38:           <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">item_ids</span> = <span class="ruby-identifier">item_ids</span>
-39:           <span class="ruby-keyword kw">redo</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bad_prompt?</span>(<span class="ruby-identifier">prompt</span>)
-40:           <span class="ruby-identifier">prompt_item_ids</span>[<span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">id</span>] = <span class="ruby-identifier">item_ids</span>
-41:         <span class="ruby-keyword kw">end</span>
-42:       <span class="ruby-keyword kw">end</span>
-43:       <span class="ruby-identifier">prompt_item_ids</span>
-44:     <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/algorithms/prompt/popular.rb, line 16</span>
+16:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prompts</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-identifier">count</span>)
+17:       <span class="ruby-identifier">result</span> = <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">execute</span>(
+18:         <span class="ruby-node">&quot;SELECT id,score FROM stats WHERE question_id=#{question_id} ORDER BY score;&quot;</span>
+19:       )
+20:       <span class="ruby-comment cmt"># TODO: choose min value with more justification</span>
+21:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">num_rows</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>
+22:       <span class="ruby-comment cmt"># make all stats positive by adding |min(stats)| + 1 to all stats</span>
+23:       <span class="ruby-identifier">prompt_item_ids</span> = {}
+24:       <span class="ruby-identifier">norm</span> = <span class="ruby-identifier">cur</span> = <span class="ruby-value">0</span>
+25:       <span class="ruby-identifier">stats</span> = []
+26:       <span class="ruby-identifier">stat</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fetch_hash</span>
+27:       <span class="ruby-identifier">min</span> = <span class="ruby-identifier">stat</span>[<span class="ruby-value str">'score'</span>].<span class="ruby-identifier">to_f</span>.<span class="ruby-identifier">abs</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+28:       <span class="ruby-keyword kw">while</span> <span class="ruby-operator">!</span><span class="ruby-identifier">stat</span>.<span class="ruby-identifier">nil?</span>
+29:         <span class="ruby-identifier">norm</span> <span class="ruby-operator">+=</span> (<span class="ruby-identifier">adj</span> = <span class="ruby-identifier">stat</span>[<span class="ruby-value str">'score'</span>].<span class="ruby-identifier">to_f</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">min</span>)
+30:         <span class="ruby-identifier">stats</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">stat</span>[<span class="ruby-value str">'id'</span>].<span class="ruby-identifier">to_i</span>, [<span class="ruby-identifier">cur</span>, <span class="ruby-identifier">cur</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">adj</span>]]
+31:         <span class="ruby-identifier">stat</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fetch_hash</span>
+32:       <span class="ruby-keyword kw">end</span>
+33:       <span class="ruby-identifier">result</span>.<span class="ruby-identifier">free</span>
+34:       <span class="ruby-constant">Prompt</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword kw">do</span>
+35:         <span class="ruby-identifier">count</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+36:           <span class="ruby-identifier">prompt</span> = <span class="ruby-identifier">prompt_for_request</span>(<span class="ruby-identifier">question_id</span>, <span class="ruby-identifier">voter_id</span>, <span class="ruby-constant">ID</span>)
+37:           <span class="ruby-comment cmt"># choose the stat [0] &lt;= r &lt; [1]</span>
+38:           <span class="ruby-identifier">r</span> = <span class="ruby-identifier">rand</span>(<span class="ruby-identifier">norm</span>)
+39:           <span class="ruby-comment cmt"># detect treats hash as [key, value] array</span>
+40:           <span class="ruby-identifier">stat_id</span> = <span class="ruby-identifier">stats</span>.<span class="ruby-identifier">detect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">stat</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>][<span class="ruby-value">0</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">stat</span>[<span class="ruby-value">1</span>][<span class="ruby-value">1</span>] }[<span class="ruby-value">0</span>]
+41:           <span class="ruby-identifier">item_ids</span> = <span class="ruby-constant">Stat</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">stat_id</span>).<span class="ruby-identifier">item_ids</span>
+42:           <span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">item_ids</span> = <span class="ruby-identifier">item_ids</span>
+43:           <span class="ruby-keyword kw">redo</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bad_prompt?</span>(<span class="ruby-identifier">prompt</span>)
+44:           <span class="ruby-identifier">prompt_item_ids</span>[<span class="ruby-identifier">prompt</span>.<span class="ruby-identifier">id</span>] = <span class="ruby-identifier">item_ids</span>
+45:         <span class="ruby-keyword kw">end</span>
+46:       <span class="ruby-keyword kw">end</span>
+47:       <span class="ruby-identifier">prompt_item_ids</span>
+48:     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
