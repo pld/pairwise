@@ -118,8 +118,8 @@ class ItemsController < ApplicationController
     when 2
       # set score to percent wins after case
     when 3
-      # assume items order by ewp are in length of items order win percent * 2
-      options[:limit] *= 2 if limit > 0
+      # unset limit and truncate after sort
+      options[:limit] = nil if limit > 0
       @items = Item.all(options)
       stats = ewp_all(@items, question_id).inject({}) do |h, stat|
         h[stat.item_id.to_i] = stat_to_percent(stat)
@@ -132,16 +132,21 @@ class ItemsController < ApplicationController
       @items = @items.first(limit) if limit > 0
       @score = lambda { |i| i.score }
     when 4
-      res = row_list(question_id).inject({}) do |h, stat|
-        h[stat[1].to_i] = stat[0]
-        h
+      res = row_list(question_id)
+      if res
+        res = res.inject({}) do |h, stat|
+          h[stat[1].to_i] = stat[0]
+          h
+        end
+        @items = Item.all(options)
+        for item in @items
+          item.score = res[item.id] || 0
+        end
+        @items = @items.sort_by { |el| -el.score }
+        @score = lambda { |i| i.score }
+      else
+        @items = []
       end
-      @items = Item.all(options)
-      for item in @items
-        item.score = res[item.id] || 0
-      end
-      @items = @items.sort_by { |el| -el.score }
-      @score = lambda { |i| i.score }
     else
       options[:order] = 'items.created_at'
     end

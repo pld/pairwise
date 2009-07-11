@@ -11,12 +11,27 @@ void Init_rsvd_fast() {
     rb_define_method(RsvdFast, "matrix_approximation", method_matrix_approximation, 5);
 }
 
+/*
+ * matrix_approximation(scores_old, v_len, p_len, votes, h);
+ * ==== Return
+ * Approximate matrices V and P as an flat array pf V entries followed by P
+ * entries.
+ * ==== Parameters
+ * scores_old: Dot product of previous V and P matrices as a flat array.
+ * v_len: Rows of V matrix
+ * p_len: Columns of P matrix
+ * votes: Array of votes where each entry in the array is a visit that is an
+ * array of the winners followed by losers of the votes for this visit. For
+ * example, votes[i] = [winner1, loser1, winner2, loser2, ...]
+ * _h: Step size for descent.
+ */
 static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_len, VALUE _p_len, VALUE votes, VALUE _h)
 {
     const float v_init = 0.5;
     const float p_init = 0.1;
+    const float min_steps = 10e-20;
     const int error_len = 11;
-    // in case of a looping non-infinite non-NaN non-converging sequence
+    // in case of a non-infinite non-NaN non-converging sequence
     const int max_tries = 100000;
     int i,j,winner,loser,idx,len,num_errs;
     int stop = 0;
@@ -36,11 +51,12 @@ static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_
     // scores matrices format: [x,y] = x*height + y
     double *scores_oldp = malloc(vp_len * sizeof(double));
     double *scoresp = malloc(vp_len * sizeof(double));
+    int **votesp = malloc(votes_len * sizeof(int *));
     VALUE tmp_val;
 
     if (vp == NULL || pp == NULL || dvp == NULL || dpp == NULL)
         rb_fatal("No memory for vectors");
-    if (scoresp == NULL || scores_oldp == NULL)
+    if (scoresp == NULL || scores_oldp == NULL || votesp == NULL)
         rb_fatal("No memory for matrices");
 
     for (i=0; i<v_len; i++)
@@ -49,7 +65,15 @@ static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_
         pp[i] = p_init;
     for (i=0; i<vp_len; i++)
         scores_oldp[i] = NUM2DBL(rb_ary_entry(scores_old, i));
-
+    for (i=0; i<votes_len; i++) {
+        tmp_val = rb_ary_entry(votes, i);
+        len = RARRAY(tmp_val)->len;
+        votesp[i] = malloc((len + 1) * sizeof(int));
+        if (votesp[i] == NULL) rb_fatal("No memory for votes %i", i);
+        votesp[i][0] = len;
+        for (j=0; j<len; j++)
+            votesp[i][j+1] = FIX2INT(rb_ary_entry(tmp_val, j));
+    }
     while (stop == 0) {
         for (i=0; i<v_len; i++)
             for (j=0; j<p_len; j++)
@@ -62,12 +86,10 @@ static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_
         num_errs = 0;
 
         for(i=0; i<votes_len; i++) {
-            tmp_val = rb_ary_entry(votes, i);
-            len = RARRAY(tmp_val)->len;
             idx = i*p_len;
-            for(j=0; j<len; j+=2) {
-              winner = FIX2INT(rb_ary_entry(tmp_val, j));
-              loser = FIX2INT(rb_ary_entry(tmp_val, j+1));
+            for(j=1; j<=votesp[i][0]; j+=2) {
+              winner = votesp[i][j];
+              loser = votesp[i][j+1];
               winner_val = scores_oldp[idx + winner] + scoresp[idx + winner];
               loser_val = scores_oldp[idx + loser] + scoresp[idx + loser];
 
@@ -87,6 +109,7 @@ static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_
         // not converging, reset h
         if (isnan(err) != 0 || isinf(err) != 0 || count > max_tries) {
             h /= 2;
+            if (h < min_steps) return 0;
             rb_ivar_set(self, 'h', h);
             count = 0;
             for (i=0; i<v_len; i++)
@@ -123,6 +146,9 @@ static VALUE method_matrix_approximation(VALUE self, VALUE scores_old, VALUE _v_
     free(dpp);
     free(scores_oldp);
     free(scoresp);
+    for(i=0; i<votes_len; i++)
+        free(votesp[i]);
+    free(votesp);
     return tmp_val;
 }
 

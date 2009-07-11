@@ -58,7 +58,8 @@ v_old, p_old = [
 for i in 0...10
   scores = v_old * p_old
   puts "k: #{i}, dims: #{scores.dimensions.inspect}"
-  res = matrix_approximation(scores.to_a.flatten, v_len, p_len, votes.values, 0.5)
+  res = matrix_approximation(scores.to_a.flatten, v_len, p_len, votes.values, 0.001)
+  break if res == false
   v = res.first(v_len)
   p = res.last(p_len)
   v = DMatrix.new(v_len, 1) { |i,j| v[i] }
@@ -67,5 +68,5 @@ for i in 0...10
   p_old = DMatrix.join_rows(p_old.rows.map { |x| x } + p.rows.map { |x| x })
 end
 
-puts p_old.row(2).to_a.flatten.zip(items).sort.inspect
+puts p_old.row(2).to_a.flatten.zip(items).sort.inspect if res
 
