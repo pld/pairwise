@@ -21,6 +21,7 @@ Based on pairwise_schema.pdf
 
 == Requirements
 * AASM
+* GeoIP
 * Haml
 * LibXML
 * Linalg
@@ -38,6 +39,7 @@ Credentials must be added to the following files:
 * lib/constants.rb
 
 == Deloy
+* svn copy svn+pssh://173.45.234.238/home/svn/repos/pairwise/trunk svn+pssh://173.45.234.238/home/svn/repos/pairwise/tags/
 * config/deploy.rb set to current tag
 * config/environment.rb set PRODUCTION
 * If updated, new C RSVD code must be compiled on server
