@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :voters, :dependent => :destroy
   has_many :prompts, :through => :questions, :dependent => :destroy
 
-  validates_length_of       :login,    :within => 3..40
+  validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
