@@ -1,0 +1,17 @@
+%question{:id => @question.id, :h => @h}
+  %items
+    -@items.each_index do |i|
+      %item{:id => @items[i]}= i
+  %visits
+    -@visits.each_index do |i|
+      %visit{:id => @visits[i]}= i
+  %v
+    -@v.rows.each_with_index do |row, i|
+      %row{:index => i}
+        -row.elems.each_with_index do |e, j|
+          %col{:index => j}= e
+  %p
+    -@p.rows.each_with_index do |row, i|
+      %row{:index => i}
+        -row.elems.each_with_index do |e, j|
+          %col{:index => j}= e

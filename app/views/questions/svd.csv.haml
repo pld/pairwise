@@ -1,0 +1,11 @@
+type,row,col,value
+-@items.each_index do |i|
+  ==item,#{i},0,#{@items[i]}
+-@visits.each_index do |i|
+  ==visit,#{i},0,#{@visits[i]}
+-@v.rows.each_with_index do |row, i|
+  -row.elems.each_with_index do |e, j|
+    ==v,#{i},#{j},#{e}
+-@p.rows.each_with_index do |row, i|
+  -row.elems.each_with_index do |e, j|
+    ==p,#{i},#{j},#{e}

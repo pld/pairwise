@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Algorithms::Rank::RSVD
+
   before_filter :force_xml
 
   # GET /questions/1
@@ -57,5 +59,22 @@ class QuestionsController < ApplicationController
     @items_count = Item.count(:conditions => { :user_id => current_user.id, :active => true })
     @all_items_count = Item.count(:conditions => { :user_id => current_user.id })
     @votes_count = Prompt.count(:joins => "INNER JOIN votes ON (votes.prompt_id=prompts.id)", :conditions => { :question_id => current_user.question_ids })
+  end
+
+  # GET /questions/1
+  # ==== Return
+  # Question SVD.
+  # ==== Options (params)
+  # id<String>:: Converted to integer. ID of question.
+  # ==== Raises
+  # PermissionError:: If question does not belong to user.
+  def svd
+    @question = Question.first(:conditions => { :id => params[:id], :user_id => current_user.id })
+    if @question
+      sol = load_solution(@question.id)
+      if sol && sol.shift
+        @h, @v, @p, @items, @visits = sol
+      end
+    end
   end
 end
