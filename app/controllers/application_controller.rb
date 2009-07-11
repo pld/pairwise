@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound do |e| http_status_code(:bad_request, e) end
   rescue_from ActiveRecord::RecordInvalid do |e| http_status_code(:bad_request, e) end
   rescue_from LibXML::XML::Error do |e| http_status_code(:bad_request, e) end
-  rescue_from REXML::ParseException do |e| http_status_code(:bad_request, e) end
 
   if ENV['RAILS_ENV'] == 'production'
     rescue_from Exception do |e| notify_and_handle(e) end
@@ -58,7 +57,7 @@ class ApplicationController < ActionController::Base
         @error = "File or location does not exist."
         render :template => '/home/error'
       else
-        SystemNotifier.deliver_exception(self, request, current_visit, e)
+        SystemNotifier.deliver_error(self, request, e)
         flash.now[:error] = "We encountered an internal error. We have been notified and are working to fix the problem."
         render :template => '/home/index'
       end

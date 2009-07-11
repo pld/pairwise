@@ -2,7 +2,7 @@ class SystemNotifier < ActionMailer::Base
   SYSTEM_EMAIL_ADDRESS = %{"Error Notifier" <error@photocracy.org>}
   EXCEPTION_RECIPIENTS = %w{error@photocracy.org}
 
-  def exception(controller, request, visit, exception, sent_on = Time.now)
+  def error(controller, request, exception, sent_on = Time.now)
     @subject = sprintf("[ERROR] %s\#%s (%s) %s", controller.controller_name, controller.action_name, exception.class, exception.message.inspect)
     @body = {
       :controller => controller,
@@ -10,7 +10,6 @@ class SystemNotifier < ActionMailer::Base
       :exception => exception,
       :backtrace => sanitize_backtrace(exception.backtrace),
       :host => request.env["HTTP_HOST"], "rails_root" => rails_root,
-      :visit => visit
     }
     @sent_on = sent_on
     @from = SYSTEM_EMAIL_ADDRESS
