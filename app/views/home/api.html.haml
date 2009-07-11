@@ -113,11 +113,11 @@
     .methods
       %dl
         %dt url
-        %dd questions/[system_question_id]
+        %dd questions/[id]
         %dt description
         %dd The question's unique URL
         %dt parameters
-        %dd none
+        %dd id -- id of the question
         %dt request
         %dd none
         %dt response
@@ -140,6 +140,75 @@
           Status of deletion
           %p
             &lt;question id="[system_question_id]"&gt;[true|false]&lt;/question&gt;
+    .methods
+      %dl
+        %dt url
+        %dd questions/svd/[id]
+        %dt description
+        %dd SVD decomposition of this questions items and voters.
+        %dt parameters
+        %dd id -- id of the question
+        %dt request
+        %dd none
+        %dt response
+        %dd
+          SVD decomposition
+          %p
+            &lt;question id="[system_question_id]" h="[step_size_for_svd]"&gt;
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;items&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;item id="[system_item_id]">0&lt;/item&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;item id="[system_item_id]">1&lt;/item&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;/items&gt;
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;visits&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;visit id="[system_item_id]">0&lt;/visit&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;visit id="[system_item_id]">1&lt;/visit&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;/visits&gt;
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;v&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;row index="0"&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;col index="0"&gt;[value]&lt;/col&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;col index="1"&gt;[value]&lt;/col&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/row&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;/v&gt;
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;p&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;row index="0"&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;col index="0"&gt;[value]&lt;/col&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;col index="1"&gt;[value]&lt;/col&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/row&gt;
+            %br
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...
+            %br
+            &nbsp;&nbsp;&nbsp; &lt;/p&gt;
+            %br
+            &lt;/question&gt;
   %li#items
     %h4 Items
     %h4 Methods
